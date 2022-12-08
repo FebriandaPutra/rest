@@ -1,0 +1,23 @@
+version: '3.3'
+services:
+  express:
+    # image: node:16-alpine
+    ports:
+      - 8080:8080
+    # volumes:
+      # - .:/app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - UPLOAD_LIMIT=10M
+      - URL=redis://redis:6379
+    depends_on:
+      - redis
+    # working_dir: /app
+    # command: pm2-runtime index.js
+  redis:
+    image: redis:7-alpine
+    ports:
+      - 6379:6379
+    command: redis-server
